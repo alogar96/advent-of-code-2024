@@ -5,14 +5,6 @@ const fs = require('node:fs');
 let data = fs.readFileSync('input.txt', 'utf-8').trim();
 let result = 0;
 
-// Check if current instruction is enabled
-function enabled(index) {
-    let str = data.substring(0,index);
-    let indexDo = str.lastIndexOf('do()');
-    let indexDont = str.lastIndexOf("don't()");
-    return indexDo >= indexDont;
-}
-
 // Parse match and multiply numbers 
 function mul(match) {
     let num1 = match.substring(match.indexOf('(')+1, match.indexOf(','));
@@ -21,15 +13,18 @@ function mul(match) {
 }
 
 // Find matching string "mul(x,y)"
-const regexp = /(mul[(][0-9]+,[0-9]+[)])/g;
-const matches = data.match(regexp);
+let enabled = true;
+for (let i = 0; i < data.length; i++) {
+    if (data.substring(i, i+4) == "do()")
+        enabled = true;
+    if (data.substring(i, i+"don't()".length) == "don't()")
+        enabled = false;
 
-matches.forEach(match => {
-    let index = data.indexOf(match)
-    if (enabled(index)) {
-        result = result + mul(match);
-    }
-});
+    const regexpMatch = /(^mul[(][0-9]+,[0-9]+[)])/;
+    const match = data.substring(i).match(regexpMatch);
+    if (match != null && enabled)
+        result = result + mul(match[0]);
+}
 
 // Show puzzle result  
 console.log(result);
