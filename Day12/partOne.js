@@ -41,10 +41,7 @@ for (let r = 0; r < data.length; r++) {
                     }
                 }
             }
-            // Calculate area size * perimeter
-            //console.log(areas)
             result = result + (perimeter * areas[id].length);
-            //console.log(areas)
             id++;
         }
     }
