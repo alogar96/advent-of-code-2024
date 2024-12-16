@@ -1,3 +1,6 @@
+// Solution for day 16 part 1
+// Puzzle: https://adventofcode.com/2024/day/16
+
 const fs = require('node:fs');
 const data = fs.readFileSync('input.txt', 'utf-8').split('\n').map(x => x.split(''));
 let result = 0;
